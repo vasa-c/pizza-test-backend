@@ -17,6 +17,7 @@ Frontend code placed in separated repo.
         * Configuration
 * Backend
     * Database tables
+        * [users](doc/backend/tables/users.md)
     * Artisan commands
         * [install:nginx](doc/backend/artisan/install_nginx.md)
     * Events
