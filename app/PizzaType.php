@@ -48,7 +48,7 @@ class PizzaType extends Model
     public $timestamps = false;
 
     /**
-     * {@inheritdoc}}
+     * {@inheritdoc}
      */
     protected $fillable = [
         'name',
