@@ -71,7 +71,7 @@ class OrderItem extends Model
         if ($count === null) {
             throw new LogicException('Need count for total_price');
         }
-        $total = Price::convert($itemPrice * $count, $this->currency);
+        $total = Price::convert($itemPrice, $this->currency) * $count;
         $this->total_price = $total;
         return $total;
     }
@@ -87,6 +87,7 @@ class OrderItem extends Model
     protected $casts = [
         'user_id' => 'int',
         'pizza_type_id' => 'int',
+        'count' => 'int',
         'total_price' => 'float',
         'item_price' => 'float',
     ];
