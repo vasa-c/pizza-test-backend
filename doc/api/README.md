@@ -52,6 +52,7 @@ Order. Request:
 * `email` - for guest
 * `address`
 * `contacts`
+* `outside` - delivery outside the city
 
 Response:
 
