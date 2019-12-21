@@ -2,38 +2,75 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property string $email
+ * @property bool $is_admin
+ * @property string $name
+ * @property string $address
+ * @property string $contacts
+ * @property string $currency
+ */
 class User extends Authenticatable
 {
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Checks if the user is admin
      *
-     * @var array
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $hash = ServiceContainer::users()->passwordHash($password);
+        $this->setAttribute('password', $hash);
+    }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    public function validatePassword(string $password): bool
+    {
+        $hash = $this->getAttribute('password');
+        if ($hash === null) {
+            return false;
+        }
+        return ServiceContainer::users()->passwordValidate($password, $hash);
+    }
+
+    /**
+     * {@inheritdoc}}
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
+     * {@inheritdoc}}
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
+     * {@inheritdoc}}
      */
     protected $casts = [
+        'is_admin' => 'boolean',
         'email_verified_at' => 'datetime',
     ];
 }

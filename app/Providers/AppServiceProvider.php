@@ -3,26 +3,23 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Services\Users\{IUsersService, UsersService};
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
-     *
-     * @return void
+     * {@inhertidoc}
      */
     public function register()
     {
-        //
+        $app = $this->app;
+        $app->singleton(IUsersService::class, UsersService::class);
     }
 
     /**
-     * Bootstrap any application services.
-     *
-     * @return void
+     * {@inhertidoc}
      */
     public function boot()
     {
-        //
     }
 }
