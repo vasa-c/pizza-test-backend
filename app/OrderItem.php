@@ -23,6 +23,7 @@ class OrderItem extends Model
     public function setOrder(Order $order): void
     {
         $this->order_id = $order->id;
+        $this->currency = $order->currency;
     }
 
     /**
@@ -39,6 +40,7 @@ class OrderItem extends Model
     public function setPizza(PizzaType $pizza): void
     {
         $this->pizza_type_id = $pizza->id;
+        $this->item_price = $pizza->price;
     }
 
     /**
