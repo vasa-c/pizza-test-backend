@@ -24,6 +24,14 @@ use LogicException;
  */
 class Order extends Model
 {
+    public function createNumber(): void
+    {
+        if ($this->id === null) {
+            throw new LogicException('number generator require id');
+        }
+        $this->number = 1234 + $this->id * 7;
+    }
+
     /**
      * Set the customer
      *
