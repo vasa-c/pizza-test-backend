@@ -64,4 +64,20 @@ class Price
     {
         return (int)round($price * 100);
     }
+
+    /**
+     * @return array
+     */
+    public static function getListCurrencies(): array
+    {
+        return [self::CURRENCY_EURO, self::CURRENCY_USD];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getCurrencyValidationRule(): string
+    {
+        return 'string|in:'.implode(',', self::getListCurrencies());
+    }
 }
