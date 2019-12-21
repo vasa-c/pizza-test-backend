@@ -24,13 +24,13 @@ class PizzaTypeTest extends TestCase
             'name' => 'My',
             'slug' => 'my',
             'photo' => 'http://pizza.loc/assets/img/pizza/my.png',
-            'price' => 7.2,
+            'price' => 720,
         ], $pizza->getShortData());
         $this->assertEquals([
             'name' => 'My',
             'slug' => 'my',
             'photo' => 'http://pizza.loc/assets/img/pizza/my.png',
-            'price' => 7.2,
+            'price' => 720,
             'description' => 'This is my pizza',
         ], $pizza->getFullData());
     }

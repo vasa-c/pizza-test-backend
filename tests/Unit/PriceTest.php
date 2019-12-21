@@ -43,4 +43,11 @@ class PriceTest extends TestCase
             [10.12, 'eur', 'eur', 10.12],
         ];
     }
+
+    public function testToFrontend(): void
+    {
+        $this->assertSame(124, Price::toFrontend(1.237));
+        $this->assertSame(0, Price::toFrontend(0));
+        $this->assertSame(300, Price::toFrontend(3));
+    }
 }

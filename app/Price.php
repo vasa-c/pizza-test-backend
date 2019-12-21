@@ -53,4 +53,15 @@ class Price
         }
         return round($result, 2);
     }
+
+    /**
+     * Convert price to frontend format
+     *
+     * @param float $price
+     * @return int
+     */
+    public static function toFrontend(float $price): int
+    {
+        return (int)round($price * 100);
+    }
 }
