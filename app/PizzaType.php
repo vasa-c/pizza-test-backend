@@ -31,6 +31,18 @@ class PizzaType extends Model
     }
 
     /**
+     * Returns full data for the pizza page
+     *
+     * @return array
+     */
+    public function getFullData(): array
+    {
+        $data = $this->getShortData();
+        $data['description'] = $this->description;
+        return $data;
+    }
+
+    /**
      * {@inheritdoc}}
      */
     public $timestamps = false;
