@@ -53,6 +53,18 @@ class User extends Authenticatable
     }
 
     /**
+     * @return array
+     */
+    public function getDataForFrontend(): array
+    {
+        return [
+            'email' => $this->email,
+            'name' => $this->name,
+            'currency' => $this->currency,
+        ];
+    }
+
+    /**
      * {@inheritdoc}}
      */
     protected $fillable = [
