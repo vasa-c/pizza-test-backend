@@ -4,7 +4,7 @@ PizzaTest is a test project.
 This repo contains backend source code.
 Frontend code placed in separated repo.
 
-* Task
+* [Task](doc/task.md)
 * Site features
 * Site structure: layout and pages
 * Notifications
