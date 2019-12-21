@@ -6,7 +6,7 @@ Frontend code placed in separated repo.
 
 * [Task](doc/task.md)
 * [Site features](doc/features.md)
-* Site structure: layout and pages
+* [Site structure: layout and pages](doc/pages.md)
 * Notifications
 
 * Technologies and implementation
