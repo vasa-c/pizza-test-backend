@@ -42,7 +42,7 @@ Data of the specified pizza type.
 * `pizza` -  such as an item in `layout` request (see above `pizza_types`)
     * `description` additional
 
-## `cart` (POST)
+## `checkout` (POST)
 
 Order. Request:
 
