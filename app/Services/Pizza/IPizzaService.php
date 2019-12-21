@@ -27,7 +27,7 @@ interface IPizzaService
      * Parses pizza data from order
      *
      * @param array $data
-     * @return array|null
+     * @return array|null [{pizza, count}]
      */
     public function parseCart(array $data): ?array;
 }
