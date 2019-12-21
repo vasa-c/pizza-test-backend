@@ -21,7 +21,7 @@
         * `fail` - not delivered for some reason
 * Price and currency
     * Each pizza type has price in EUR
-    * Order price is sum all selected pizzas and coast of delivery
+    * Order price is sum all selected pizzas and cost of delivery
     * User can change currency to USD and price will recalculated with fixed course (set in the configuration)
 * Users
     * No separated registration form
