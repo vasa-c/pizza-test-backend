@@ -21,6 +21,7 @@ Frontend code placed in separated repo.
         * [users](doc/backend/tables/users.md)
         * [pizza_types](doc/backend/tables/pizza_types.md)
         * [orders](doc/backend/tables/orders.md)
+        * [order_items](doc/backend/tables/order_items.md)
     * Artisan commands
         * [install:nginx](doc/backend/artisan/install_nginx.md)
     * Events
