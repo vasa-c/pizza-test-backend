@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Users;
 
+use App\User;
+
 interface IUsersService
 {
     /**
@@ -18,4 +20,10 @@ interface IUsersService
      * @return bool
      */
     public function passwordValidate(string $password, string $hash): bool;
+
+    /**
+     * @param string $email
+     * @return User|null
+     */
+    public function getByEmail(string $email): ?User;
 }

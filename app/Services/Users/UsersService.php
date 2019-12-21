@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Users;
 
+use App\User;
 use Illuminate\Support\Facades\Hash;
 
 class UsersService implements IUsersService
@@ -22,5 +23,13 @@ class UsersService implements IUsersService
     public function passwordValidate(string $password, string $hash): bool
     {
         return Hash::check($password, $hash);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getByEmail(string $email): ?User
+    {
+        return User::where('email', $email)->first();
     }
 }
