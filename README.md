@@ -8,10 +8,9 @@ Frontend code placed in separated repo.
 * [Site features](doc/features.md)
 * [Site structure: layout and pages](doc/pages.md)
 * [Notifications](doc/notifications.md)
-
 * [Technologies and implementation](doc/tech.md)
 * Install and deploy
-    * Requirements
+    * [Requirements](doc/requirements.md)
     * Backend
         * Configuration
     * Frontend
