@@ -23,14 +23,12 @@ class OrdersService implements IOrdersService
     /**
      * {@inheritdoc}
      */
-    public function getPizzaPrice(array $items, string $currency): float
+    public function calculatePizzaPrice(array $items, string $currency): float
     {
         $price = 0;
         foreach ($items as $item) {
-            /** @var PizzaType $pizza */
-            $pizza = $item['pizza'];
-            $count = $item['count'];
-            $price += $pizza->getPrice($currency) * $count;
+            $item->currency = $currency;
+            $price += $item->calculateTotalPrice();
         }
         return $price;
     }
@@ -38,7 +36,7 @@ class OrdersService implements IOrdersService
     /**
      * {@inheritdoc}
      */
-    public function getDeliveryPrice(float $pizzaPrice, bool $outside, string $currency): float
+    public function calculateDeliveryPrice(float $pizzaPrice, bool $outside, string $currency): float
     {
         if (!$outside) {
             return 0;

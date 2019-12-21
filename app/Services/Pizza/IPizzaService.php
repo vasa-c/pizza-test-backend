@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Pizza;
 
-use App\PizzaType;
+use App\{
+    PizzaType,
+    OrderItem
+};
 
 interface IPizzaService
 {
@@ -27,7 +30,7 @@ interface IPizzaService
      * Parses pizza data from order
      *
      * @param array $data
-     * @return array|null [{pizza, count}]
+     * @return OrderItem[]|null [{pizza, count}]
      */
     public function parseCart(array $data): ?array;
 }

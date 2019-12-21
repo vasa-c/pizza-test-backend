@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Pizza;
 
-use App\PizzaType;
+use App\{
+    PizzaType,
+    OrderItem
+};
 
 class PizzaService implements IPizzaService
 {
@@ -41,10 +44,9 @@ class PizzaService implements IPizzaService
             if ($pizza === null) {
                 return null;
             }
-            $result[$slug] = [
-                'pizza' => $pizza,
-                'count' => $count,
-            ];
+            $item = new OrderItem();
+            $item->setPizza($pizza, $count);
+            $result[$slug] = $item;
         }
         return $result;
     }

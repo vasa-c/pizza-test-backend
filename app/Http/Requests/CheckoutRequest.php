@@ -13,6 +13,7 @@ use App\Price;
  * @property string $email
  * @property string $address
  * @property string $contacts
+ * @property bool $outside
  */
 class CheckoutRequest extends FormRequest
 {
@@ -43,6 +44,7 @@ class CheckoutRequest extends FormRequest
             'email' => 'string|required',
             'address' => 'string|required',
             'contacts' => 'string|required',
+            'outside' => 'boolean|required',
         ];
     }
 }
