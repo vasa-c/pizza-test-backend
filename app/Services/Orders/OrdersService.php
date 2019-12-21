@@ -6,7 +6,8 @@ namespace App\Services\Orders;
 
 use App\{
     Order,
-    PizzaType
+    PizzaType,
+    Price,
 };
 
 class OrdersService implements IOrdersService
@@ -32,5 +33,20 @@ class OrdersService implements IOrdersService
             $price += $pizza->getPrice($currency) * $count;
         }
         return $price;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDeliveryPrice(float $pizzaPrice, bool $outside, string $currency): float
+    {
+        if (!$outside) {
+            return 0;
+        }
+        $pizzaPriceEuro = Price::convert($pizzaPrice, Price::CURRENCY_EURO, $currency);
+        if ($pizzaPriceEuro >= 100) {
+            return 0;
+        }
+        return Price::convert(1, $currency);
     }
 }

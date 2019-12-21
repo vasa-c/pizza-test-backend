@@ -24,4 +24,14 @@ interface IOrdersService
      * @return mixed
      */
     public function getPizzaPrice(array $items, string $currency): float;
+
+    /**
+     * Returns the delivery cost for the order
+     *
+     * @param float $pizzaPrice
+     * @param bool $outside
+     * @param string $currency
+     * @return float
+     */
+    public function getDeliveryPrice(float $pizzaPrice, bool $outside, string $currency): float;
 }
