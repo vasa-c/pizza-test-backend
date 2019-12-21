@@ -23,10 +23,9 @@ interface IOrdersService
      * Returns sum price of all pizza in order in the specified currency
      *
      * @param OrderItem[] $items
-     * @param string $currency
      * @return mixed
      */
-    public function calculatePizzaPrice(array $items, string $currency): float;
+    public function calculatePizzaPrice(array $items): float;
 
     /**
      * Returns the delivery cost for the order

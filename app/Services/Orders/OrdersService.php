@@ -23,14 +23,13 @@ class OrdersService implements IOrdersService
     /**
      * {@inheritdoc}
      */
-    public function calculatePizzaPrice(array $items, string $currency): float
+    public function calculatePizzaPrice(array $items): float
     {
         $price = 0;
         foreach ($items as $item) {
-            $item->currency = $currency;
             $price += $item->calculateTotalPrice();
         }
-        return $price;
+        return round($price, 2);
     }
 
     /**

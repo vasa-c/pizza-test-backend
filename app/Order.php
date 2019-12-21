@@ -13,6 +13,7 @@ use LogicException;
  * @property int $number
  * @property int $user_id
  * @property string $user_name
+ * @property bool $user_created
  * @property string $email
  * @property string $address
  * @property string $contacts
@@ -106,6 +107,66 @@ class Order extends Model
     }
 
     /**
+     * @param OrderItem[] $items
+     */
+    public function setItems(array $items): void
+    {
+        if ($this->id !== null) {
+            throw new LogicException('setItems() for created order');
+        }
+        $currency = $this->currency;
+        foreach ($items as $item) {
+            $item->currency = $currency;
+        }
+        $this->items = $items;
+    }
+
+    /**
+     * @return OrderItem[]
+     */
+    public function getItems(): array
+    {
+        if ($this->id === null) {
+            return $this->items ?? [];
+        }
+        $items = [];
+        /** @var OrderItem $item */
+        foreach (OrderItem::where('order_id', $this->id)->orderBy('id', 'asc')->get() as $item) {
+            $pizza = $item->getPizza();
+            if ($pizza !== null) {
+                $items[$pizza->slug] = $item;
+            }
+        }
+        return $items;
+    }
+
+    public function saveItems(): void
+    {
+        if ($this->id === null) {
+            throw new LogicException('saveItems() for not created order');
+        }
+        if ($this->items === null) {
+            throw new LogicException('saveItems() for empty items');
+        }
+        foreach ($this->items as $item) {
+            $item->setOrder($this);
+            $item->save();
+        }
+    }
+
+    /**
+     * Calculates delivery and total prices
+     */
+    public function calculatePrices(): void
+    {
+        $orders = ServiceContainer::orders();
+        $pizzaPrice = $orders->calculatePizzaPrice($this->items);
+        $deliveryPrice = $orders->calculateDeliveryPrice($pizzaPrice, $this->outside, $this->currency);
+        $this->delivery_price = $deliveryPrice;
+        $this->total_price = $pizzaPrice + $deliveryPrice;
+    }
+
+    /**
      * @param string $status
      * @return bool
      */
@@ -130,8 +191,16 @@ class Order extends Model
      */
     protected $casts = [
         'user_id' => 'int',
+        'user_created' => 'boolean',
         'outside' => 'boolean',
         'delivery_price' => 'float',
         'total_price' => 'float',
     ];
+
+    /**
+     * Items before save
+     *
+     * @var OrderItem[]
+     */
+    private $items;
 }

@@ -13,6 +13,7 @@ class CreateOrders extends Migration
             $table->bigInteger('number')->default(0);
             $table->bigInteger('user_id')->unsigned()->nullable(); // NULL if user was deleted
             $table->string('user_name');
+            $table->boolean('user_created')->default(false);
             $table->string('email');
             $table->string('address');
             $table->string('contacts');

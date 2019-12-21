@@ -46,8 +46,8 @@ class OrderItemTest extends TestCase
         $item->currency = 'usd';
         $item->item_price = 2.22;
         $item->count = 2;
-        $this->assertEquals(4.93, $item->calculateTotalPrice());
-        $this->assertEquals(4.93, $item->total_price);
+        $this->assertEquals(4.94, $item->calculateTotalPrice());
+        $this->assertEquals(4.94, $item->total_price);
         $item->item_price = null;
         $this->expectException(LogicException::class);
         $item->calculateTotalPrice();

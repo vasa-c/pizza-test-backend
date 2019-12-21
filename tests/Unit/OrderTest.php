@@ -3,10 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\{
-    User,
-    Order
-};
+use App\{ServiceContainer, User, Order};
 use Carbon\Carbon;
 use LogicException;
 
@@ -66,5 +63,39 @@ class OrderTest extends TestCase
         $this->assertSame(Order::STATUS_SUCCESS, $order->status);
         $this->assertTrue($order->isFinalized());
         $this->assertSame('2019-12-21 20:00:00', $order->finalized_at);
+    }
+
+    public function testItemsAndPrices(): void
+    {
+        $this->migrate();
+        $items = ServiceContainer::pizza()->parseCart([
+            'chicago' => 2,
+            'greek' => 1,
+        ]);
+        $items['chicago']->item_price = 2.2; // 2.44 $
+        $items['greek']->item_price = 3.3; // 3.67 $
+        /** @var Order $order */
+        $order = factory(Order::class)->make([
+            'currency' => 'usd',
+            'outside' => true,
+        ]);
+        $order->setItems($items);
+        $this->assertSame('usd', $items['chicago']->currency);
+        $this->assertSame($items, $order->getItems());
+        $order->calculatePrices();
+        $this->assertEquals(1.11, $order->delivery_price);
+        $this->assertEquals(9.66, $order->total_price);
+        $order->save();
+        $this->assertNull($items['chicago']->order_id);
+        $order->saveItems();
+        $this->assertSame($order->id, $items['chicago']->order_id);
+
+        /** @var Order $loadedOrder */
+        $loadedOrder = Order::find($order->id);
+        $items = $loadedOrder->getItems();
+        $this->assertCount(2, $items);
+        $this->assertArrayHasKey('chicago', $items);
+        $this->assertSame(2, $items['chicago']->count);
+        $this->assertEquals(2.2, $items['chicago']->item_price);
     }
 }
