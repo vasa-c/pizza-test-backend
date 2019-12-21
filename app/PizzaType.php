@@ -16,6 +16,26 @@ use Illuminate\Database\Eloquent\Model;
 class PizzaType extends Model
 {
     /**
+     * Returns short data for list of pizza
+     *
+     * @return array
+     */
+    public function getShortData(): array
+    {
+        return [
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'photo' => url('assets/img/pizza/'.$this->slug.'.png'),
+            'price' => $this->price,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}}
+     */
+    public $timestamps = false;
+
+    /**
      * {@inheritdoc}}
      */
     protected $fillable = [
