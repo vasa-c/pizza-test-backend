@@ -9,7 +9,7 @@ Frontend code placed in separated repo.
 * [Site structure: layout and pages](doc/pages.md)
 * [Notifications](doc/notifications.md)
 
-* Technologies and implementation
+* [Technologies and implementation](doc/tech.md)
 * Install and deploy
     * Requirements
     * Backend
