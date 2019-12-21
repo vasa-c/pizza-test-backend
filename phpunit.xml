@@ -28,6 +28,7 @@
         <server name="APP_ENV" value="testing"/>
         <server name="APP_URL" value="http://pizza.loc"/>
         <server name="ADMIN_EMAIL" value="admin@pizza.loc"/>
+        <server name="USD_RATE" value="0.9"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
         <server name="DB_CONNECTION" value="sqlite"/>

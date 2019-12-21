@@ -8,4 +8,5 @@ return [
         'nuxt' => env('NGINX_NUXT_PROXY', 'http://localhost:3000'),
         'fpm' => env('NGINX_FPM', 'php-fpm'),
     ],
+    'price' => (float)env('USD_RATE', 0.9),
 ];
