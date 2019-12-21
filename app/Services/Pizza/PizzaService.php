@@ -15,4 +15,18 @@ class PizzaService implements IPizzaService
     {
         return PizzaType::where('slug', $slug)->first();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDataForList(): array
+    {
+        $result = [];
+        /** @var PizzaType[] $types */
+        $types = PizzaType::orderBy('name', 'asc')->get();
+        foreach ($types as $type) {
+            $result[] = $type->getShortData();
+        }
+        return $result;
+    }
 }

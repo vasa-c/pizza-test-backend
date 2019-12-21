@@ -15,4 +15,11 @@ interface IPizzaService
      * @return PizzaType|null
      */
     public function getBySlug(string $slug): ?PizzaType;
+
+    /**
+     * Returns the short data of all pizza types
+     *
+     * @return array
+     */
+    public function getDataForList(): array;
 }
