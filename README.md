@@ -12,7 +12,7 @@ Frontend code placed in separated repo.
 * Install and deploy
     * [Requirements](doc/requirements.md)
     * Backend
-        * Configuration
+        * [Configuration](doc/backend/config.md)
     * Frontend
         * Configuration
 * Backend
