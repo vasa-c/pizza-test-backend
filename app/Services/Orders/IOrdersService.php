@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Orders;
 
-use App\Order;
+use App\{
+    Order,
+    OrderItem
+};
 
 interface IOrdersService
 {
@@ -19,11 +22,11 @@ interface IOrdersService
     /**
      * Returns sum price of all pizza in order in the specified currency
      *
-     * @param array $items
+     * @param OrderItem[] $items
      * @param string $currency
      * @return mixed
      */
-    public function getPizzaPrice(array $items, string $currency): float;
+    public function calculatePizzaPrice(array $items, string $currency): float;
 
     /**
      * Returns the delivery cost for the order
@@ -33,5 +36,5 @@ interface IOrdersService
      * @param string $currency
      * @return float
      */
-    public function getDeliveryPrice(float $pizzaPrice, bool $outside, string $currency): float;
+    public function calculateDeliveryPrice(float $pizzaPrice, bool $outside, string $currency): float;
 }

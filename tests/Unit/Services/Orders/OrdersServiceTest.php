@@ -27,7 +27,7 @@ class OrderServiceTest extends TestCase
         $this->assertNull(ServiceContainer::orders()->getByNumber(2));
     }
 
-    public function testGetPizzaPrice(): void
+    public function testCalculateGetPizzaPrice(): void
     {
         $this->migrate();
         $cart = [
@@ -35,10 +35,12 @@ class OrderServiceTest extends TestCase
             'greek' => 1,
         ];
         $items = ServiceContainer::pizza()->parseCart($cart);
-        $items['chicago']['pizza']->price = 2.23; // 2.48 $
-        $items['greek']['pizza']->price = 3.34; // 3.71 $
-        $this->assertEquals(7.8, ServiceContainer::orders()->getPizzaPrice($items, 'eur')); // 2.23 * 2 + 3.34
-        $this->assertEquals(8.67, ServiceContainer::orders()->getPizzaPrice($items, 'usd'));
+        $items['chicago']->item_price = 2.23; // 2.48 $
+        $items['greek']->item_price = 3.34; // 3.71 $
+        $this->assertEquals(7.8, ServiceContainer::orders()->calculatePizzaPrice($items, 'eur')); // 2.23 * 2 + 3.34
+        $this->assertSame('eur', $items['greek']->currency);
+        $this->assertEquals(8.67, ServiceContainer::orders()->calculatePizzaPrice($items, 'usd'));
+        $this->assertSame('usd', $items['greek']->currency);
     }
 
     /**
@@ -47,13 +49,13 @@ class OrderServiceTest extends TestCase
      * @param string $currency
      * @param float $expected
      */
-    public function testGetDeliveryPrice(float $pizzaPrice, string $currency, float $expected): void
+    public function calculateGetDeliveryPrice(float $pizzaPrice, string $currency, float $expected): void
     {
-        $this->assertEquals($expected, ServiceContainer::orders()->getDeliveryPrice($pizzaPrice, true, $currency));
-        $this->assertEquals(0, ServiceContainer::orders()->getDeliveryPrice($pizzaPrice, false, $currency));
+        $this->assertEquals($expected, ServiceContainer::orders()->calculateDeliveryPrice($pizzaPrice, true, $currency));
+        $this->assertEquals(0, ServiceContainer::orders()->calculateDeliveryPrice($pizzaPrice, false, $currency));
     }
 
-    public function providerGetDeliveryPrice(): array
+    public function providerCalculateDeliveryPrice(): array
     {
         return [
             'cost' => [90, 'eur', 1],
