@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use LogicException;
 
 /**
@@ -24,6 +25,14 @@ use LogicException;
  */
 class Order extends Model
 {
+    public const STATUS_CREATED = 'created';
+    public const STATUS_DELIVERY = 'delivery';
+    public const STATUS_SUCCESS = 'success';
+    public const STATUS_FAIL = 'fail';
+
+    /**
+     * Creates the order number for fronted
+     */
     public function createNumber(): void
     {
         if ($this->id === null) {
@@ -56,6 +65,58 @@ class Order extends Model
             return null;
         }
         return User::find($this->user_id);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFinalized(): bool
+    {
+        return in_array($this->status, [self::STATUS_SUCCESS, self::STATUS_FAIL]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function toDelivery(): bool
+    {
+        if ($this->status !== self::STATUS_CREATED) {
+            return false;
+        }
+        $this->status = self::STATUS_DELIVERY;
+        $this->save();
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function toSuccess(): bool
+    {
+        return $this->finalizedAs(self::STATUS_SUCCESS);
+    }
+
+    /**
+     * @return bool
+     */
+    public function toFail(): bool
+    {
+        return $this->finalizedAs(self::STATUS_FAIL);
+    }
+
+    /**
+     * @param string $status
+     * @return bool
+     */
+    protected function finalizedAs(string $status): bool
+    {
+        if ($this->isFinalized()) {
+            return false;
+        }
+        $this->status = $status;
+        $this->finalized_at = Carbon::now()->format('Y-m-d H:i:s');
+            $this->save();
+        return true;
     }
 
     /**
