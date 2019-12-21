@@ -5,7 +5,7 @@ This repo contains backend source code.
 Frontend code placed in separated repo.
 
 * [Task](doc/task.md)
-* Site features
+* [Site features](doc/features.md)
 * Site structure: layout and pages
 * Notifications
 
