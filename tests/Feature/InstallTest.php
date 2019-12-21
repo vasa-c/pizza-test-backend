@@ -3,7 +3,10 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\User;
+use App\{
+    User,
+    PizzaType
+};
 
 class InstallTest extends TestCase
 {
@@ -16,5 +19,13 @@ class InstallTest extends TestCase
         $this->assertTrue($admin->isAdmin());
         $this->assertSame('Admin', $admin->name);
         $this->assertTrue($admin->validatePassword('admin'));
+    }
+
+    public function testPizzaCreated()
+    {
+        $this->migrate();
+        $pizza = PizzaType::where('slug', 'new-york-style')->first();
+        $this->assertNotNull($pizza);
+        $this->assertSame('New York-Style', $pizza->name);
     }
 }
