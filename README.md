@@ -11,7 +11,7 @@ Frontend code placed in separated repo.
 * [Technologies and implementation](doc/tech.md)
 * Install and deploy
     * [Requirements](doc/requirements.md)
-    * Backend
+    * [Backend](doc/backend/install.md)
         * [Configuration](doc/backend/config.md)
     * Frontend
         * Configuration
