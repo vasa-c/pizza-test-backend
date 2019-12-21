@@ -11,6 +11,7 @@ use LogicException;
  * @property int $id
  * @property int $number
  * @property int $user_id
+ * @property string $user_name
  * @property string $email
  * @property string $address
  * @property string $contacts
