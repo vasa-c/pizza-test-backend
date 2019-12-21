@@ -22,4 +22,12 @@ interface IPizzaService
      * @return array
      */
     public function getDataForList(): array;
+
+    /**
+     * Parses pizza data from order
+     *
+     * @param array $data
+     * @return array|null [{pizza, count}]
+     */
+    public function parseCart(array $data): ?array;
 }

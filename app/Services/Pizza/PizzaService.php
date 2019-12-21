@@ -29,4 +29,23 @@ class PizzaService implements IPizzaService
         }
         return $result;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function parseCart(array $data): ?array
+    {
+        $result = [];
+        foreach ($data as $slug => $count) {
+            $pizza = $this->getBySlug($slug);
+            if ($pizza === null) {
+                return null;
+            }
+            $result[$slug] = [
+                'pizza' => $pizza,
+                'count' => $count,
+            ];
+        }
+        return $result;
+    }
 }

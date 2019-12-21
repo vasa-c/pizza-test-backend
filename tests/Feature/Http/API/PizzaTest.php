@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\API;
 
 use Tests\TestCase;
-use App\User;
 
-class LayoutTest extends TestCase
+class PizzaTest extends TestCase
 {
     public function testLayout(): void
     {

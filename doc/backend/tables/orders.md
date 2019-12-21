@@ -5,7 +5,7 @@
 * `user_id` - customer, FK to [users](users.md)
 * `email`, `user_name`, `address`, `contacts` - fields from forms may differ from current customer data
 * `currency` - currency of the order
-* `delivery_price` - delivery coast in the `currency`
+* `delivery_price` - delivery cost in the `currency`
 * `total_price` - total price in the `currency` (including `delivery_price`)
 * `status`
     * `created`
