@@ -17,6 +17,7 @@ class CreateOrders extends Migration
             $table->string('address');
             $table->string('contacts');
             $table->string('currency');
+            $table->boolean('outside')->default(false);
             $table->decimal('delivery_price', 12, 2);
             $table->decimal('total_price', 12, 2);
             $table->string('status')->default('created');
