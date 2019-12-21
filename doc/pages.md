@@ -11,7 +11,7 @@ Contains following parts of page:
     * Logo with link to the main page
     * Currency select
     * User block
-        * Shopping cart (an icon with the count of pizzas), link to the cart page
+        * Shopping cart (an icon with the count of pizza types), link to the cart page
         * For guests
             * Login link which opens login-popup (see below)
         * For authorized
@@ -49,11 +49,11 @@ Form with `email` & `password` fields.
 
 Some text and list of pizza types with photos.
 
-## `/pizzas/`
+## `/pizza/`
 
 List of pizza types with photos.
 
-## `/pizzas/slug/`
+## `/pizza/slug/`
 
 Page of the pizza type
 
@@ -68,7 +68,7 @@ Page of the pizza type
 
 If the shopping cart is empty page contains text about it and nothing more.
 
-* List of selected pizzas
+* List of selected pizza types
     * Change of the count
     * Delete from cart
 * Total price in the selected currency

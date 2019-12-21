@@ -15,6 +15,7 @@ Frontend code placed in separated repo.
         * [Configuration](doc/backend/config.md)
     * Frontend
         * Configuration
+* [API methods](doc/api/README.md)
 * Backend
     * Database tables
         * [users](doc/backend/tables/users.md)
