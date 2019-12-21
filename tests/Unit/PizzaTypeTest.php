@@ -3,7 +3,10 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\PizzaType;
+use App\{
+    PizzaType,
+    Price
+};
 
 class PizzaTypeTest extends TestCase
 {
@@ -33,5 +36,13 @@ class PizzaTypeTest extends TestCase
             'price' => 720,
             'description' => 'This is my pizza',
         ], $pizza->getFullData());
+    }
+
+    public function testGetPrice(): void
+    {
+        $pizza = new PizzaType();
+        $pizza->price = 9.99;
+        $this->assertEquals(9.99, $pizza->getPrice(Price::CURRENCY_EURO));
+        $this->assertEquals(11.1, $pizza->getPrice(Price::CURRENCY_USD));
     }
 }

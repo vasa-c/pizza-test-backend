@@ -43,6 +43,17 @@ class PizzaType extends Model
     }
 
     /**
+     * Returns the pizza price in the specified currency
+     *
+     * @param string $currency
+     * @return float
+     */
+    public function getPrice(string $currency): float
+    {
+        return Price::convert((float)$this->price, $currency);
+    }
+
+    /**
      * {@inheritdoc}}
      */
     public $timestamps = false;
