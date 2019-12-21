@@ -3,11 +3,14 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\User;
+use App\{
+    User,
+    ServiceContainer
+};
 
 class UserTest extends TestCase
 {
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->migrate();
         $user = new User();
@@ -19,5 +22,15 @@ class UserTest extends TestCase
         $this->assertFalse($user->isAdmin());
         $user->is_admin = true;
         $this->assertTrue($user->isAdmin());
+    }
+
+    public function testSetPassword(): void
+    {
+        $user = new User();
+        $this->assertFalse($user->validatePassword('my-password'));
+        $user->setPassword('my-password');
+        $this->assertTrue($user->validatePassword('my-password'));
+        $this->assertFalse($user->validatePassword('not-my-password'));
+        $this->assertTrue(ServiceContainer::users()->passwordValidate('my-password', $user->getAttribute('password')));
     }
 }

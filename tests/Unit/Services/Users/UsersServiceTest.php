@@ -14,7 +14,6 @@ class UserServiceTest extends TestCase
     {
         $users = ServiceContainer::users();
         $hashOne = $users->passwordHash('one');
-        $hashTwo = $users->passwordHash('two');
         $this->assertTrue($users->passwordValidate('one', $hashOne));
         $this->assertFalse($users->passwordValidate('two', $hashOne));
         $this->assertTrue($users->passwordValidate('two', Hash::make('two')));

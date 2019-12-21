@@ -28,6 +28,28 @@ class User extends Authenticatable
     }
 
     /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $hash = ServiceContainer::users()->passwordHash($password);
+        $this->setAttribute('password', $hash);
+    }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    public function validatePassword(string $password): bool
+    {
+        $hash = $this->getAttribute('password');
+        if ($hash === null) {
+            return false;
+        }
+        return ServiceContainer::users()->passwordValidate($password, $hash);
+    }
+
+    /**
      * {@inheritdoc}}
      */
     protected $fillable = [
