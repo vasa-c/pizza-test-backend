@@ -13,6 +13,7 @@ use LogicException;
  * @property int $number
  * @property int $user_id
  * @property string $user_name
+ * @property bool $user_created
  * @property string $email
  * @property string $address
  * @property string $contacts
@@ -130,6 +131,7 @@ class Order extends Model
      */
     protected $casts = [
         'user_id' => 'int',
+        'user_created' => 'boolean',
         'outside' => 'boolean',
         'delivery_price' => 'float',
         'total_price' => 'float',
