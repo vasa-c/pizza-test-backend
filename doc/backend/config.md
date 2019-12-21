@@ -41,6 +41,15 @@ For example, you entered `me@example.com` as email then will be created user wit
 * `email`="me@example.com"
 * `password`="me@example.com"
 
+## `USD_RATE`
+
+Rate dollar to euro.
+For example
+
+* USD_RATE=0.9
+* Pizza price is 12.99 euro
+* Price in USD is 14.43
+
 ## `NGINX_*`
 
 Options for automatically generate Nginx config file.

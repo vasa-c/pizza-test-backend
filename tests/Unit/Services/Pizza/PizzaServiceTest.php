@@ -39,13 +39,13 @@ class PizzaServiceTest extends TestCase
             [
                 'name' => 'One Pizza',
                 'slug' => 'one',
-                'price' => 4.22,
+                'price' => 422,
                 'photo' => 'http://pizza.loc/assets/img/pizza/one.png',
             ],
             [
                 'name' => 'Two Pizza',
                 'slug' => 'two',
-                'price' => 7.33,
+                'price' => 733,
                 'photo' => 'http://pizza.loc/assets/img/pizza/two.png',
             ],
         ], ServiceContainer::pizza()->getDataForList());
