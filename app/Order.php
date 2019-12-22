@@ -95,7 +95,7 @@ class Order extends Model
      */
     public function toSuccess(): bool
     {
-        return $this->finalizedAs(self::STATUS_SUCCESS);
+        return $this->finalizeAs(self::STATUS_SUCCESS);
     }
 
     /**
@@ -103,7 +103,7 @@ class Order extends Model
      */
     public function toFail(): bool
     {
-        return $this->finalizedAs(self::STATUS_FAIL);
+        return $this->finalizeAs(self::STATUS_FAIL);
     }
 
     /**
@@ -187,19 +187,41 @@ class Order extends Model
      */
     public function getDataForList(): array
     {
-        $fields = ['number', 'status', 'total_price', 'currency', 'created_at', 'finalized_at'];
-        $result = [];
-        foreach ($fields as $k) {
-            $result[$k] = $this->$k;
+        return [
+            'number' => $this->number,
+            'status' => $this->status,
+            'total_price' => Price::toFrontend($this->total_price),
+            'currency' => $this->currency,
+            'created_at' => $this->created_at,
+            'finalized_at' => $this->finalized_at
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getDataForPage(): array
+    {
+        $items = [];
+        foreach ($this->getItems() as $item) {
+            $items[] = $item->getDataForOrderPage();
         }
-        return $result;
+        return array_replace($this->getDataForList(), [
+            'user_name' => $this->user_name,
+            'email' => $this->email,
+            'address' => $this->address,
+            'contacts' => $this->contacts,
+            'outside' => $this->outside,
+            'delivery_price' => Price::toFrontend($this->delivery_price),
+            'items' => $items,
+        ]);
     }
 
     /**
      * @param string $status
      * @return bool
      */
-    protected function finalizedAs(string $status): bool
+    protected function finalizeAs(string $status): bool
     {
         if ($this->isFinalized()) {
             return false;

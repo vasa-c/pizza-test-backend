@@ -4,13 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\CheckoutRequest;
 use App\ServiceContainer;
-use Illuminate\Support\Facades\{
-    Log,
-    Auth
-};
-use Exception;
 
 class CabinetController extends APIController
 {
@@ -22,6 +16,20 @@ class CabinetController extends APIController
         }
         return response()->json([
             'orders' => $orders,
+        ]);
+    }
+
+    public function order(int $number)
+    {
+        $order = ServiceContainer::orders()->getByNumber($number);
+        if ($order === null) {
+            return $this->error404();
+        }
+        if ($order->user_id !== $this->getCurrentUser()->id) {
+            return $this->error404(); // not 403 against brute
+        }
+        return response()->json([
+            'order' => $order->getDataForPage(),
         ]);
     }
 }

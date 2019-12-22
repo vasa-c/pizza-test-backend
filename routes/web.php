@@ -12,5 +12,6 @@ Route::prefix('/api/')->namespace('API')->group(function () {
 
     Route::prefix('cabinet')->middleware(CanBeLogined::class)->group(function () {
         Route::get('', 'CabinetController@cabinet');
+        Route::get('{number}', 'CabinetController@order')->where('number', '[0-9]+');
     });
 });
