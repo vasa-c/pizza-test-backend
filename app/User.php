@@ -81,6 +81,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return Order[]
+     */
+    public function getOrders(): array
+    {
+        return iterator_to_array(Order::where('user_id', $this->id)->orderBy('id', 'desc')->get());
+    }
+
+    /**
      * {@inheritdoc}}
      */
     protected $fillable = [

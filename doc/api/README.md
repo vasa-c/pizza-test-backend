@@ -3,6 +3,8 @@
 For example if method is `layout` then request URL is `/api/layout`.
 If not specified `(POST)` then it GET-method. 
 
+**NOTE**: all price transfer to the frontend as integer (in cents), for example 3.99 will be 399 on frontend.
+
 ## `layout`
 
 Requested when frontend rendered on server side.
@@ -12,7 +14,7 @@ Returns base data for all pages.
     * `name` - pizza name
     * `slug` - slug for pizza page URL
     * `photo` - link to photo preview
-    * `prices` - list of prices, currency => price as integer cents
+    * `prices` - list of prices, currency => price
         * For example: "usd" => 123 ($ 1.23)
 * `user` - data of authorized user (NULL for guest)
     * `email`
@@ -69,7 +71,34 @@ Response:
 
 ## `cabinet`
 
+* `orders` - list of the current user orders
+    * `number`
+    * `status`
+    * `total_price`
+    * `currency`
+    * `created_at`
+    * `finalized_at`
+
 ## `cabinet/{order-number}`
+
+* `order` info of the specified order
+    * `number`
+    * `status`
+    * `user_name`
+    * `email`
+    * `address`
+    * `contacts`
+    * `outside`
+    * `currency`
+    * `delivery_price`
+    * `total_price`
+    * `status`
+    * `created_at`
+    * `finalized_at`
+    * `items` - list of pizza in the order
+        * `slug`
+        * `name`
+        * `count`    
 
 ## `admin`
 

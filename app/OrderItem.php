@@ -77,6 +77,19 @@ class OrderItem extends Model
     }
 
     /**
+     * @return array
+     */
+    public function getDataForOrderPage(): array
+    {
+        $pizza = $this->getPizza();
+        return [
+            'slug' => $pizza ? $pizza->slug : null,
+            'name' => $pizza ? $pizza->name : null,
+            'count' => $this->count,
+        ];
+    }
+
+    /**
      * {@inheritdoc}}
      */
     public $timestamps = false;
