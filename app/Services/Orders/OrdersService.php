@@ -10,6 +10,7 @@ use App\{
     User
 };
 use App\Http\Requests\CheckoutRequest;
+use App\Events\CheckoutEvent;
 
 class OrdersService implements IOrdersService
 {
@@ -56,6 +57,9 @@ class OrdersService implements IOrdersService
         $process = new CheckoutProcess($request, $user);
         $result = $process->process();
         $result->buildResponse();
+        if ($result->order !== null) {
+            event(new CheckoutEvent($result));
+        }
         return $result;
     }
 }
