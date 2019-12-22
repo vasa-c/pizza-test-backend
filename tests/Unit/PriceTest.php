@@ -51,6 +51,14 @@ class PriceTest extends TestCase
         $this->assertSame(300, Price::toFrontend(3));
     }
 
+    public function testGetPricesForFrontend(): void
+    {
+        $this->assertSame([
+            'eur' => 124,
+            'usd' => 137,
+        ], Price::getPricesForFrontend(1.237));
+    }
+
     public function testGetCurrencyValidationRule(): void
     {
         $this->assertSame('string|in:eur,usd', Price::getCurrencyValidationRule());

@@ -11,8 +11,9 @@ Returns base data for all pages.
 * `pizza_types` - list of all pizza types for menu (array with items)
     * `name` - pizza name
     * `slug` - slug for pizza page URL
-    * `price` - price in euro in frontend form (integer cents)
     * `photo` - link to photo preview
+    * `prices` - list of prices, currency => price as integer cents
+        * For example: "usd" => 123 ($ 1.23)
 * `user` - data of authorized user (NULL for guest)
     * `email`
     * `name`

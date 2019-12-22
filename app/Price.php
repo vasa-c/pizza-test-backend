@@ -66,6 +66,20 @@ class Price
     }
 
     /**
+     * @param float $price
+     *        price in euro
+     * @return array
+     */
+    public static function getPricesForFrontend(float $price): array
+    {
+        $result = [];
+        foreach (self::getListCurrencies() as $currency) {
+            $result[$currency] = self::toFrontend(self::convert($price, $currency));
+        }
+        return $result;
+    }
+
+    /**
      * @return array
      */
     public static function getListCurrencies(): array
