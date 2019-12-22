@@ -6,8 +6,10 @@ namespace App\Services\Orders;
 
 use App\{
     Order,
-    OrderItem
+    OrderItem,
+    User
 };
+use App\Http\Requests\CheckoutRequest;
 
 interface IOrdersService
 {
@@ -36,4 +38,13 @@ interface IOrdersService
      * @return float
      */
     public function calculateDeliveryPrice(float $pizzaPrice, bool $outside, string $currency): float;
+
+    /**
+     * Checkout process and create order
+     *
+     * @param CheckoutRequest $request
+     * @param User|null $user
+     * @return CheckoutResult
+     */
+    public function checkout(CheckoutRequest $request, ?User $user): CheckoutResult;
 }

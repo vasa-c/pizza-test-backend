@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Unit\Services\Orders;
 
 use Tests\TestCase;
 use App\{
@@ -36,11 +36,13 @@ class OrderServiceTest extends TestCase
         ];
         $items = ServiceContainer::pizza()->parseCart($cart);
         $items['chicago']->item_price = 2.23; // 2.48 $
+        $items['chicago']->currency = 'eur';
         $items['greek']->item_price = 3.34; // 3.71 $
-        $this->assertEquals(7.8, ServiceContainer::orders()->calculatePizzaPrice($items, 'eur')); // 2.23 * 2 + 3.34
-        $this->assertSame('eur', $items['greek']->currency);
-        $this->assertEquals(8.67, ServiceContainer::orders()->calculatePizzaPrice($items, 'usd'));
-        $this->assertSame('usd', $items['greek']->currency);
+        $items['greek']->currency = 'eur';
+        $this->assertEquals(7.8, ServiceContainer::orders()->calculatePizzaPrice($items)); // 2.23 * 2 + 3.34
+        $items['chicago']->currency = 'usd';
+        $items['greek']->currency = 'usd';
+        $this->assertEquals(8.67, ServiceContainer::orders()->calculatePizzaPrice($items));
     }
 
     /**

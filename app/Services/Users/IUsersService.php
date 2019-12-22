@@ -26,4 +26,9 @@ interface IUsersService
      * @return User|null
      */
     public function getByEmail(string $email): ?User;
+
+    /**
+     * @return string
+     */
+    public function generateRandomPassword(): string;
 }

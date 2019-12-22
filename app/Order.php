@@ -190,6 +190,7 @@ class Order extends Model
      * {@inheritdoc}}
      */
     protected $casts = [
+        'number' => 'int',
         'user_id' => 'int',
         'user_created' => 'boolean',
         'outside' => 'boolean',

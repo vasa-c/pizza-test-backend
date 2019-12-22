@@ -6,9 +6,10 @@ namespace App\Services\Orders;
 
 use App\{
     Order,
-    PizzaType,
     Price,
+    User
 };
+use App\Http\Requests\CheckoutRequest;
 
 class OrdersService implements IOrdersService
 {
@@ -45,5 +46,16 @@ class OrdersService implements IOrdersService
             return 0;
         }
         return Price::convert(1, $currency);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkout(CheckoutRequest $request, ?User $user): CheckoutResult
+    {
+        $process = new CheckoutProcess($request, $user);
+        $result = $process->process();
+        $result->buildResponse();
+        return $result;
     }
 }

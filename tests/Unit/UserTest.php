@@ -33,4 +33,33 @@ class UserTest extends TestCase
         $this->assertFalse($user->validatePassword('not-my-password'));
         $this->assertTrue(ServiceContainer::users()->passwordValidate('my-password', $user->getAttribute('password')));
     }
+
+    /**
+     * @dataProvider providerGeneratePassword
+     * @param bool $asEmail
+     */
+    public function testGeneratePassword(bool $asEmail): void
+    {
+        config()->set('pizza.generatePasswordAsEmail', $asEmail);
+        $user = new User();
+        $user->email = 'tester@example.com';
+        $password = $user->generatePassword();
+        $this->assertTrue($user->validatePassword($password));
+        if ($asEmail) {
+            $this->assertSame('tester@example.com', $password);
+        } else {
+            $this->assertRegExp('/^[a-zA-Z0-9]{10}$/s', $password);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGeneratePassword(): array
+    {
+        return [
+            'random' => [false],
+            'email' => [true],
+        ];
+    }
 }
