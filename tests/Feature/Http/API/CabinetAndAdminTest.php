@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\API;
 
 use Tests\TestCase;
-use App\{ServiceContainer, User, Order};
+use App\{
+    ServiceContainer,
+    User,
+    Order
+};
 use Carbon\Carbon;
 
-class CabinetTest extends TestCase
+class CabinetAndAdminTest extends TestCase
 {
     public function testCabinet(): void
     {
         $this->migrate();
         Carbon::setTestNow('2020-01-01 00:00:00');
+        $admin = ServiceContainer::users()->getByEmail('admin@pizza.loc');
         /** @var User $user1 */
         $user1 = factory(User::class)->create();
         /** @var User $user2 */
@@ -39,29 +44,40 @@ class CabinetTest extends TestCase
 
         // guest - forbidden
         $this->getJson('/api/cabinet')->assertStatus(403);
+        $this->getJson('/api/admin')->assertStatus(403);
 
         $this->be($user1);
         $response = $this->getJson('/api/cabinet');
         $response->assertStatus(200);
         $data = $response->json();
         $this->assertArrayHasKey('orders', $data);
+        $equals3 = [
+            'number' => $order3->number,
+            'status' => 'success',
+            'total_price' => 1300,
+            'currency' => 'eur',
+            'created_at' => '2020-01-01 00:00:00',
+            'finalized_at' => '2020-01-01 00:00:01',
+        ];
+        $equals1 = [
+            'number' => $order1->number,
+            'status' => 'created',
+            'total_price' => 1100,
+            'currency' => 'eur',
+            'created_at' => '2020-01-01 00:00:00',
+            'finalized_at' => null,
+        ];
+        $equals2 = [
+            'number' => $order2->number,
+            'status' => 'created',
+            'total_price' => 1200,
+            'currency' => 'eur',
+            'created_at' => '2020-01-01 00:00:00',
+            'finalized_at' => null,
+        ];
         $this->assertEquals([
-            [
-                'number' => $order3->number,
-                'status' => 'success',
-                'total_price' => 1300,
-                'currency' => 'eur',
-                'created_at' => '2020-01-01 00:00:00',
-                'finalized_at' => '2020-01-01 00:00:01',
-            ],
-            [
-                'number' => $order1->number,
-                'status' => 'created',
-                'total_price' => 1100,
-                'currency' => 'eur',
-                'created_at' => '2020-01-01 00:00:00',
-                'finalized_at' => null,
-            ],
+            $equals3,
+            $equals1,
         ], $data['orders']);
 
         $this->be($user2);
@@ -70,20 +86,27 @@ class CabinetTest extends TestCase
         $data = $response->json();
         $this->assertArrayHasKey('orders', $data);
         $this->assertEquals([
-            [
-                'number' => $order2->number,
-                'status' => 'created',
-                'total_price' => 1200,
-                'currency' => 'eur',
-                'created_at' => '2020-01-01 00:00:00',
-                'finalized_at' => null,
-            ],
+            $equals2,
         ], $data['orders']);
+
+        // admin
+        $this->get('/api/admin')->assertStatus(403); // for user 2
+        $this->be($admin);
+        $response = $this->get('/api/admin');
+        $response->assertStatus(200);
+        $this->assertEquals([
+            'orders' => [
+                $equals3,
+                $equals2,
+                $equals1,
+            ],
+        ], $response->json());
     }
 
     public function testOrderPage(): void
     {
         $this->migrate();
+        $admin = ServiceContainer::users()->getByEmail('admin@pizza.loc');
         /** @var User $user1 */
         $user1 = factory(User::class)->create();
         /** @var User $user2 */
@@ -120,7 +143,7 @@ class CabinetTest extends TestCase
         $this->be($user1);
         $response = $this->get('/api/cabinet/55555');
         $response->assertStatus(200);
-        $this->assertEquals([
+        $expected = [
             'order' => [
                 'number' => $order->number,
                 'status' => 'delivery',
@@ -152,8 +175,44 @@ class CabinetTest extends TestCase
                     ],
                 ],
             ],
-        ], $response->json());
+        ];
+        $this->assertEquals($expected, $response->json());
 
         $this->get('/api/cabinet/77777')->assertStatus(404);
+
+        // admin
+        $this->get('/api/admin/55555')->assertStatus(403); // for user1
+        $this->get('/api/admin/555-55')->assertStatus(404); // invalid url
+        $this->be($admin);
+        $response = $this->get('/api/admin/55555');
+        $response->assertStatus(200);
+        $this->assertEquals($expected, $response->json());
+        $this->get('/api/admin/77777')->assertStatus(404);
+
+        // change status
+        $order->status = 'created';
+        $order->save();
+        $this->postJson('/api/admin/55555/status', ['status' => 'xxx'])->assertStatus(422);
+        $this->postJson('/api/admin/55555/status', ['status' => 'created'])->assertStatus(422);
+        // to delivery
+        $response = $this->postJson('/api/admin/55555/status', ['status' => 'delivery']);
+        $response->assertStatus(200);
+        $expected['order']['status'] = 'delivery';
+        $this->assertEquals($expected, $response->json());
+        $order->refresh();
+        $this->assertSame('delivery', $order->status);
+        // to success
+        Carbon::setTestNow('2020-01-01 00:10:00');
+        $response = $this->postJson('/api/admin/55555/status', ['status' => 'success']);
+        $response->assertStatus(200);
+        $expected['order']['status'] = 'success';
+        $expected['order']['finalized_at'] = '2020-01-01 00:10:00';
+        $order->refresh();
+        $this->assertSame('success', $order->status);
+        // it status is final
+        $this->postJson('/api/admin/55555/status', ['status' => 'delivery'])->assertStatus(422);
+        $this->postJson('/api/admin/55555/status', ['status' => 'fail'])->assertStatus(422);
+        $order->refresh();
+        $this->assertSame('success', $order->status);
     }
 }

@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CanBeLogined;
+use App\Http\Middleware\{
+    CanBeLogined,
+    CanBeAdmin
+};
 
 Route::prefix('/api/')->namespace('API')->group(function () {
     Route::get('layout', 'LayoutController@layout');
@@ -13,5 +16,10 @@ Route::prefix('/api/')->namespace('API')->group(function () {
     Route::prefix('cabinet')->middleware(CanBeLogined::class)->group(function () {
         Route::get('', 'CabinetController@cabinet');
         Route::get('{number}', 'CabinetController@order')->where('number', '[0-9]+');
+    });
+    Route::prefix('admin')->middleware(CanBeAdmin::class)->group(function () {
+        Route::get('', 'AdminController@admin');
+        Route::get('{number}', 'AdminController@order')->where('number', '[0-9]+');
+        Route::post('{number}/status', 'AdminController@changeStatus')->where('number', '[0-9]+');
     });
 });
