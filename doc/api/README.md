@@ -50,6 +50,7 @@ Order. Request:
     * pizza slug => count
 * `currency`
 * `email` - for guest
+* `name`
 * `address`
 * `contacts`
 * `outside` - delivery outside the city

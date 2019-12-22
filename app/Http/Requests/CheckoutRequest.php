@@ -11,6 +11,7 @@ use App\Price;
  * @property array $pizza
  * @property string $currency
  * @property string $email
+ * @property string $name
  * @property string $address
  * @property string $contacts
  * @property bool $outside
@@ -42,6 +43,7 @@ class CheckoutRequest extends FormRequest
             ],
             'currency' => 'required|'.Price::getCurrencyValidationRule(),
             'email' => 'string|required',
+            'name' => 'string|required',
             'address' => 'string|required',
             'contacts' => 'string|required',
             'outside' => 'boolean|required',
