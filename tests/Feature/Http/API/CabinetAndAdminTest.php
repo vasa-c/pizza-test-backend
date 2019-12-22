@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\API;
 
 use Tests\TestCase;
-use App\{ServiceContainer, User, Order};
+use App\{
+    ServiceContainer,
+    User,
+    Order
+};
 use Carbon\Carbon;
 
-class CabinetTest extends TestCase
+class CabinetAndAdminTest extends TestCase
 {
     public function testCabinet(): void
     {
         $this->migrate();
         Carbon::setTestNow('2020-01-01 00:00:00');
+        $admin = ServiceContainer::users()->getByEmail('admin@pizza.loc');
         /** @var User $user1 */
         $user1 = factory(User::class)->create();
         /** @var User $user2 */
@@ -39,29 +44,40 @@ class CabinetTest extends TestCase
 
         // guest - forbidden
         $this->getJson('/api/cabinet')->assertStatus(403);
+        $this->getJson('/api/admin')->assertStatus(403);
 
         $this->be($user1);
         $response = $this->getJson('/api/cabinet');
         $response->assertStatus(200);
         $data = $response->json();
         $this->assertArrayHasKey('orders', $data);
+        $equals3 = [
+            'number' => $order3->number,
+            'status' => 'success',
+            'total_price' => 1300,
+            'currency' => 'eur',
+            'created_at' => '2020-01-01 00:00:00',
+            'finalized_at' => '2020-01-01 00:00:01',
+        ];
+        $equals1 = [
+            'number' => $order1->number,
+            'status' => 'created',
+            'total_price' => 1100,
+            'currency' => 'eur',
+            'created_at' => '2020-01-01 00:00:00',
+            'finalized_at' => null,
+        ];
+        $equals2 = [
+            'number' => $order2->number,
+            'status' => 'created',
+            'total_price' => 1200,
+            'currency' => 'eur',
+            'created_at' => '2020-01-01 00:00:00',
+            'finalized_at' => null,
+        ];
         $this->assertEquals([
-            [
-                'number' => $order3->number,
-                'status' => 'success',
-                'total_price' => 1300,
-                'currency' => 'eur',
-                'created_at' => '2020-01-01 00:00:00',
-                'finalized_at' => '2020-01-01 00:00:01',
-            ],
-            [
-                'number' => $order1->number,
-                'status' => 'created',
-                'total_price' => 1100,
-                'currency' => 'eur',
-                'created_at' => '2020-01-01 00:00:00',
-                'finalized_at' => null,
-            ],
+            $equals3,
+            $equals1,
         ], $data['orders']);
 
         $this->be($user2);
@@ -70,15 +86,21 @@ class CabinetTest extends TestCase
         $data = $response->json();
         $this->assertArrayHasKey('orders', $data);
         $this->assertEquals([
-            [
-                'number' => $order2->number,
-                'status' => 'created',
-                'total_price' => 1200,
-                'currency' => 'eur',
-                'created_at' => '2020-01-01 00:00:00',
-                'finalized_at' => null,
-            ],
+            $equals2,
         ], $data['orders']);
+
+        // admin
+        $this->get('/api/admin')->assertStatus(403); // for user 2
+        $this->be($admin);
+        $response = $this->get('/api/admin');
+        $response->assertStatus(200);
+        $this->assertEquals([
+            'orders' => [
+                $equals3,
+                $equals2,
+                $equals1,
+            ],
+        ], $response->json());
     }
 
     public function testOrderPage(): void

@@ -102,4 +102,20 @@ Response:
 
 ## `admin`
 
+* `orders` - such as in `cabinet` method
+
 ## `admin/{order-number}`
+
+* `order` - such as in `cabinet/{order-number}` method
+
+## `admin/{order-number}/status` (POST)
+
+Change status of the order.
+
+Request:
+
+* `status` - "delivery"|"success"|"fail"
+
+Response:
+
+* `order` - all data of the order after changes (see `admin/{order-number}).
