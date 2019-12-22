@@ -7,8 +7,12 @@ namespace Tests\Feature\Http\API;
 use App\ServiceContainer;
 use Tests\TestCase;
 use App\User;
-use App\Notifications\OrderForCustomerNotification;
+use App\Notifications\{
+    OrderForCustomerNotification,
+    OrderForAdminNotification
+};
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Notifications\AnonymousNotifiable;
 
 class CheckoutTest extends TestCase
 {
@@ -55,6 +59,14 @@ class CheckoutTest extends TestCase
             $order->getUser(),
             OrderForCustomerNotification::class,
             function (OrderForCustomerNotification $notification, $channels) use ($order) {
+                $checkout = $notification->toArray(null)['checkout'];
+                return $order->is($checkout->order);
+            }
+        );
+        Notification::assertSentTo(
+            new AnonymousNotifiable(), // @todo test email
+            OrderForAdminNotification::class,
+            function (OrderForAdminNotification $notification, $channels) use ($order) {
                 $checkout = $notification->toArray(null)['checkout'];
                 return $order->is($checkout->order);
             }

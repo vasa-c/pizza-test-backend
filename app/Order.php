@@ -175,6 +175,14 @@ class Order extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getAdminLink(): string
+    {
+        return url('/admin/'.$this->number);
+    }
+
+    /**
      * @param string $status
      * @return bool
      */
