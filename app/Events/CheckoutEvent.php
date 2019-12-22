@@ -6,7 +6,7 @@ namespace App\Events;
 
 use App\Services\Orders\CheckoutResult;
 
-class CheckoutEvent
+class CheckoutEvent extends BaseEvent
 {
     /**
      * @var CheckoutResult

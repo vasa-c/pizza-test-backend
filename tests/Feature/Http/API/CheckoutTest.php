@@ -7,6 +7,8 @@ namespace Tests\Feature\Http\API;
 use App\ServiceContainer;
 use Tests\TestCase;
 use App\User;
+use App\Notifications\OrderForCustomerNotification;
+use Illuminate\Support\Facades\Notification;
 
 class CheckoutTest extends TestCase
 {
@@ -17,6 +19,7 @@ class CheckoutTest extends TestCase
     public function testSuccess(bool $guest): void
     {
         $this->migrate();
+        Notification::fake();
         /** @var User $user */
         if ($guest) {
             $user = null;
@@ -48,6 +51,14 @@ class CheckoutTest extends TestCase
         } else {
             $this->assertTrue(empty($data['user']));
         }
+        Notification::assertSentTo(
+            $order->getUser(),
+            OrderForCustomerNotification::class,
+            function (OrderForCustomerNotification $notification, $channels) use ($order) {
+                $checkout = $notification->toArray(null)['checkout'];
+                return $order->is($checkout->order);
+            }
+        );
     }
 
     /**

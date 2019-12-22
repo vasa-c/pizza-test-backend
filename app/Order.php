@@ -167,6 +167,14 @@ class Order extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getCabinetLink(): string
+    {
+        return url('/cabinet/'.$this->number); // Laravel has not route for frontend page
+    }
+
+    /**
      * @param string $status
      * @return bool
      */
