@@ -65,6 +65,20 @@ class User extends Authenticatable
     }
 
     /**
+     * @return string
+     */
+    public function generatePassword(): string
+    {
+        if (config('pizza.generatePasswordAsEmail')) {
+            $password = (string)$this->email;
+        } else {
+            $password = ServiceContainer::users()->generateRandomPassword();
+        }
+        $this->setPassword($password);
+        return $password;
+    }
+
+    /**
      * {@inheritdoc}}
      */
     protected $fillable = [
