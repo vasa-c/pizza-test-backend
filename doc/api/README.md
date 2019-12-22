@@ -69,7 +69,34 @@ Response:
 
 ## `cabinet`
 
+* `orders` - list of the current user orders
+    * `number`
+    * `status`
+    * `total_price`
+    * `currency`
+    * `created_at`
+    * `finalized_at`
+
 ## `cabinet/{order-number}`
+
+* `order` info of the specified order
+    * `number`
+    * `status`
+    * `user_name`
+    * `email`
+    * `address`
+    * `contacts`
+    * `outside`
+    * `currency`
+    * `delivery_price`
+    * `total_price`
+    * `status`
+    * `created_at`
+    * `finalized_at`
+    * `items` - list of pizza in the order
+        * `slug`
+        * `name`
+        * `count`    
 
 ## `admin`
 

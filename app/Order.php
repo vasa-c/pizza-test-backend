@@ -183,6 +183,19 @@ class Order extends Model
     }
 
     /**
+     * @return array
+     */
+    public function getDataForList(): array
+    {
+        $fields = ['number', 'status', 'total_price', 'currency', 'created_at', 'finalized_at'];
+        $result = [];
+        foreach ($fields as $k) {
+            $result[$k] = $this->$k;
+        }
+        return $result;
+    }
+
+    /**
      * @param string $status
      * @return bool
      */
