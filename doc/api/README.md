@@ -19,6 +19,9 @@ Returns base data for all pages.
     * `name`
     * `is_admin` (bool)
     * `currency`, `address`, `contacts` - data from last order
+* `currencies` - list of available currencies (first element is default currency)
+    * key - "usd" for example
+    * label - currency sign ("$")
 * `csrf` - CSRF token for POST requests
 
 ## `login` (POST)

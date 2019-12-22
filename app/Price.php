@@ -88,10 +88,33 @@ class Price
     }
 
     /**
+     * @return array
+     */
+    public static function getListCurrenciesForFrontend(): array
+    {
+        $result = [];
+        foreach (self::getListCurrencies() as $key) {
+            $result[] = [
+                'key' => $key,
+                'label' => self::$labels[$key] ?? $key,
+            ];
+        }
+        return $result;
+    }
+
+    /**
      * @return string
      */
     public static function getCurrencyValidationRule(): string
     {
         return 'string|in:'.implode(',', self::getListCurrencies());
     }
+
+    /**
+     * @var string[]
+     */
+    private static $labels = [
+        self::CURRENCY_EURO => "\u{20AC}",
+        self::CURRENCY_USD => '$',
+    ];
 }

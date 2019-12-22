@@ -17,10 +17,16 @@ class LayoutTest extends TestCase
         $data = $response->json();
         $this->assertArrayHasKey('pizza_types', $data);
         $this->assertArrayHasKey('user', $data);
+        $this->assertArrayHasKey('currencies', $data);
         $this->assertArrayHasKey('csrf', $data);
         $types = $data['pizza_types'];
         $this->assertIsArray($types);
         $this->assertNull($data['user']);
+        $this->assertCount(2, $data['currencies']);
+        $this->assertSame([
+            'key' => 'usd',
+            'label' => '$',
+        ], $data['currencies'][1]);
         $this->assertSame(csrf_token(), $data['csrf']);
 
         $user = new User();
