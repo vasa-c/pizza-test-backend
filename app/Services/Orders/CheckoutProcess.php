@@ -117,7 +117,9 @@ class CheckoutProcess
         $order->setUser($this->result->user);
         $order->calculatePrices();
         $order->save();
+        $order->createNumber();
         $order->saveItems();
+        $order->save();
         $order->refresh();
         $this->result->order = $this->order;
     }
