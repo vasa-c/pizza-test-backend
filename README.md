@@ -24,7 +24,6 @@ Frontend code placed in separated repo.
         * [order_items](doc/backend/tables/order_items.md)
     * Artisan commands
         * [install:nginx](doc/backend/artisan/install_nginx.md)
-    * Events
-    * Notifications
+    * [Events & Notifications](doc/backend/events/README.md)
 * Frontend
     * Shopping cart
