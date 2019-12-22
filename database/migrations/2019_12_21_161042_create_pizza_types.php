@@ -11,7 +11,7 @@ class CreatePizzaTypes extends Migration
         Schema::create('pizza_types', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug', 50)->unique();
             $table->string('description', 4000)->default('');
             $table->decimal('price', 8, 2);
         });
