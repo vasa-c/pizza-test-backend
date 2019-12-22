@@ -26,6 +26,8 @@ class LayoutTest extends TestCase
         $user = new User();
         $user->email = 'me@example.com';
         $user->name = 'Me';
+        $user->address = 'street 25';
+        $user->contacts = '777-77';
         $user->setPassword('xxx');
         $user->save();
         $user->refresh();
@@ -35,6 +37,8 @@ class LayoutTest extends TestCase
             'email' => 'me@example.com',
             'name' => 'Me',
             'currency' => 'eur',
+            'address' => 'street 25',
+            'contacts' => '777-77',
         ];
         $response = $this->get('/api/layout');
         $response->assertStatus(200);

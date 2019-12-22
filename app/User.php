@@ -61,6 +61,8 @@ class User extends Authenticatable
             'email' => $this->email,
             'name' => $this->name,
             'currency' => $this->currency,
+            'address' => $this->address,
+            'contacts' => $this->contacts,
         ];
     }
 
