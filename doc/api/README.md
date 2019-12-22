@@ -57,6 +57,7 @@ Order. Request:
 Response:
 
 * `order_number` - for success, redirect to `/cabinet/{order_number}`
+* `user` - user data if was created (such as in `layout` request)
 * `req_login` - TRUE if email already exists 
 
 ## `cabinet`
