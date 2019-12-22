@@ -8,6 +8,7 @@ use App\{
     Order,
     ServiceContainer
 };
+use App\Http\Requests\AdminChangeStatusRequest;
 
 class AdminController extends APIController
 {
@@ -28,6 +29,31 @@ class AdminController extends APIController
         $order = ServiceContainer::orders()->getByNumber($number);
         if ($order === null) {
             return $this->error404();
+        }
+        return response()->json([
+            'order' => $order->getDataForPage(),
+        ]);
+    }
+
+    public function changeStatus(AdminChangeStatusRequest $request, int $number)
+    {
+        $order = ServiceContainer::orders()->getByNumber($number);
+        if ($order === null) {
+            return $this->error404();
+        }
+        switch ($request->status) {
+            case 'delivery':
+                $result = $order->toDelivery();
+                break;
+            case 'success':
+                $result = $order->toSuccess();
+                break;
+            case 'fail':
+                $result = $order->toFail();
+                break;
+        }
+        if (!$result) {
+            return $this->errorRequest();
         }
         return response()->json([
             'order' => $order->getDataForPage(),

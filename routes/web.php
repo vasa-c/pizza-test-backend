@@ -20,5 +20,6 @@ Route::prefix('/api/')->namespace('API')->group(function () {
     Route::prefix('admin')->middleware(CanBeAdmin::class)->group(function () {
         Route::get('', 'AdminController@admin');
         Route::get('{number}', 'AdminController@order')->where('number', '[0-9]+');
+        Route::post('{number}/status', 'AdminController@changeStatus')->where('number', '[0-9]+');
     });
 });

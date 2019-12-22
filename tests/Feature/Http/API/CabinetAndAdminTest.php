@@ -188,5 +188,31 @@ class CabinetAndAdminTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals($expected, $response->json());
         $this->get('/api/admin/77777')->assertStatus(404);
+
+        // change status
+        $order->status = 'created';
+        $order->save();
+        $this->postJson('/api/admin/55555/status', ['status' => 'xxx'])->assertStatus(422);
+        $this->postJson('/api/admin/55555/status', ['status' => 'created'])->assertStatus(422);
+        // to delivery
+        $response = $this->postJson('/api/admin/55555/status', ['status' => 'delivery']);
+        $response->assertStatus(200);
+        $expected['order']['status'] = 'delivery';
+        $this->assertEquals($expected, $response->json());
+        $order->refresh();
+        $this->assertSame('delivery', $order->status);
+        // to success
+        Carbon::setTestNow('2020-01-01 00:10:00');
+        $response = $this->postJson('/api/admin/55555/status', ['status' => 'success']);
+        $response->assertStatus(200);
+        $expected['order']['status'] = 'success';
+        $expected['order']['finalized_at'] = '2020-01-01 00:10:00';
+        $order->refresh();
+        $this->assertSame('success', $order->status);
+        // it status is final
+        $this->postJson('/api/admin/55555/status', ['status' => 'delivery'])->assertStatus(422);
+        $this->postJson('/api/admin/55555/status', ['status' => 'fail'])->assertStatus(422);
+        $order->refresh();
+        $this->assertSame('success', $order->status);
     }
 }
