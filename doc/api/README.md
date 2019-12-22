@@ -59,6 +59,8 @@ Order. Request:
 * `contacts`
 * `outside` - delivery outside the city
 
+*Note:* after successfully user registration he will automatically login 
+
 Response:
 
 * `order_number` - for success, redirect to `/cabinet/{order_number}`

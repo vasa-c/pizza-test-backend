@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\API;
 
-use App\ServiceContainer;
 use Tests\TestCase;
-use App\User;
+use App\{
+    User,
+    ServiceContainer
+};
 use App\Notifications\{
     OrderForCustomerNotification,
     OrderForAdminNotification
 };
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\{
+    Auth,
+    Notification
+};
 use Illuminate\Notifications\AnonymousNotifiable;
 
 class CheckoutTest extends TestCase
@@ -52,8 +57,13 @@ class CheckoutTest extends TestCase
         $this->assertNotNull($order);
         if ($guest) {
             $this->assertEquals($order->getUser()->getDataForFrontend(), $data['user']);
+            $user = ServiceContainer::users()->getByEmail($data['user']['email']);
+            $this->assertNotNull($user);
+            $this->assertSame($user->id, $order->user_id);
+            $this->assertTrue($user->is(Auth::user()));
         } else {
             $this->assertTrue(empty($data['user']));
+            $this->assertTrue($user->is(Auth::user()));
         }
         Notification::assertSentTo(
             $order->getUser(),
