@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
-use App\Order;
+use App\{
+    Order,
+    ServiceContainer
+};
 
 class AdminController extends APIController
 {
@@ -17,6 +20,17 @@ class AdminController extends APIController
         }
         return response()->json([
             'orders' => $orders,
+        ]);
+    }
+
+    public function order(int $number)
+    {
+        $order = ServiceContainer::orders()->getByNumber($number);
+        if ($order === null) {
+            return $this->error404();
+        }
+        return response()->json([
+            'order' => $order->getDataForPage(),
         ]);
     }
 }

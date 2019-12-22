@@ -103,6 +103,7 @@ You can access the page in the following ways:
 
 * Available only for admins
 * List of all orders grouped by status
+* Without pagination
 
 ### `/admin/{order-number}`
 

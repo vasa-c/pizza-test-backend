@@ -106,6 +106,7 @@ class CabinetAndAdminTest extends TestCase
     public function testOrderPage(): void
     {
         $this->migrate();
+        $admin = ServiceContainer::users()->getByEmail('admin@pizza.loc');
         /** @var User $user1 */
         $user1 = factory(User::class)->create();
         /** @var User $user2 */
@@ -142,7 +143,7 @@ class CabinetAndAdminTest extends TestCase
         $this->be($user1);
         $response = $this->get('/api/cabinet/55555');
         $response->assertStatus(200);
-        $this->assertEquals([
+        $expected = [
             'order' => [
                 'number' => $order->number,
                 'status' => 'delivery',
@@ -174,8 +175,18 @@ class CabinetAndAdminTest extends TestCase
                     ],
                 ],
             ],
-        ], $response->json());
+        ];
+        $this->assertEquals($expected, $response->json());
 
         $this->get('/api/cabinet/77777')->assertStatus(404);
+
+        // admin
+        $this->get('/api/admin/55555')->assertStatus(403); // for user1
+        $this->get('/api/admin/555-55')->assertStatus(404); // invalid url
+        $this->be($admin);
+        $response = $this->get('/api/admin/55555');
+        $response->assertStatus(200);
+        $this->assertEquals($expected, $response->json());
+        $this->get('/api/admin/77777')->assertStatus(404);
     }
 }
