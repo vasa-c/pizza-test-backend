@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\{
     Log,
     Auth
 };
-use Exception;
+use Throwable;
 
 class CheckoutController extends APIController
 {
@@ -19,7 +19,7 @@ class CheckoutController extends APIController
         $user = $this->getCurrentUser();
         try {
             $result = ServiceContainer::orders()->checkout($request, $user);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             Log::error('checkout: '.$e->getMessage());
             return response()->json([], 500);
         }

@@ -9,7 +9,11 @@ use App\Notifications\{
     OrderForCustomerNotification,
     OrderForAdminNotification
 };
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\{
+    Notification,
+    Log
+};
+use Throwable;
 
 class CheckoutListener extends BaseListener
 {
@@ -18,8 +22,17 @@ class CheckoutListener extends BaseListener
      */
     public function handle(CheckoutEvent $event)
     {
-        $this->notifyCustomer($event);
-        $this->notifyAdmin($event);
+        try {
+            $this->notifyCustomer($event);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+        }
+        try {
+            $this->notifyAdmin($event);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+        }
+
     }
 
     /**
