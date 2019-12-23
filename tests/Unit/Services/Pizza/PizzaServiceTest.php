@@ -44,7 +44,7 @@ class PizzaServiceTest extends TestCase
                     'eur' => 422,
                     'usd' => 469,
                 ],
-                'photo' => 'http://pizza.loc/assets/img/pizza/one.png',
+                'photo' => 'http://pizza.loc/img/pizza/one.jpg',
             ],
             [
                 'name' => 'Two Pizza',
@@ -53,7 +53,7 @@ class PizzaServiceTest extends TestCase
                     'eur' => 733,
                     'usd' => 814,
                 ],
-                'photo' => 'http://pizza.loc/assets/img/pizza/two.png',
+                'photo' => 'http://pizza.loc/img/pizza/two.jpg',
             ],
         ], ServiceContainer::pizza()->getDataForList());
     }

@@ -26,7 +26,7 @@ class PizzaTypeTest extends TestCase
         $this->assertEquals([
             'name' => 'My',
             'slug' => 'my',
-            'photo' => 'http://pizza.loc/assets/img/pizza/my.png',
+            'photo' => 'http://pizza.loc/img/pizza/my.jpg',
             'prices' => [
                 'eur' => 720,
                 'usd' => 800,
@@ -35,7 +35,7 @@ class PizzaTypeTest extends TestCase
         $this->assertEquals([
             'name' => 'My',
             'slug' => 'my',
-            'photo' => 'http://pizza.loc/assets/img/pizza/my.png',
+            'photo' => 'http://pizza.loc/img/pizza/my.jpg',
             'prices' => [
                 'eur' => 720,
                 'usd' => 800,

@@ -25,7 +25,7 @@ class PizzaType extends Model
         return [
             'name' => $this->name,
             'slug' => $this->slug,
-            'photo' => url('assets/img/pizza/'.$this->slug.'.png'),
+            'photo' => url('img/pizza/'.$this->slug.'.jpg'),
             'prices' => Price::getPricesForFrontend($this->price),
         ];
     }
