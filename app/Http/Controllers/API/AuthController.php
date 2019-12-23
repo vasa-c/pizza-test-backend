@@ -6,7 +6,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\{
+    Auth,
+    Log
+};
 use RuntimeException;
 
 class AuthController extends APIController
@@ -18,6 +21,7 @@ class AuthController extends APIController
             $this->attemptLogin($request->email, $request->password);
         }
         $user = $this->getCurrentUser();
+        Log::info('Login '.$request->email.': '.($user ? 'OK' : 'Fail'));
         return response()->json([
             'user' => $user ? $user->getDataForFrontend() : null,
         ]);
@@ -25,7 +29,9 @@ class AuthController extends APIController
 
     public function logout(Request $request)
     {
-        if ($this->getCurrentUser()) {
+        $user = $this->getCurrentUser();
+        if ($user) {
+            Log::info('Logout '.$user->email);
             Auth::guard()->logout();
             try {
                 $request->session()->invalidate();
@@ -33,6 +39,7 @@ class AuthController extends APIController
                 // @todo log
             }
         }
+
         return response()->json([]);
     }
 
