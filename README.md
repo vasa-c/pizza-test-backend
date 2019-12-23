@@ -27,3 +27,4 @@ Frontend code placed in separated repo.
     * [Events & Notifications](doc/backend/events/README.md)
 * Frontend
     * Shopping cart
+* [Tests](doc/tests.md)
