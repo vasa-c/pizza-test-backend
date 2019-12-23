@@ -57,13 +57,17 @@ class User extends Authenticatable
      */
     public function getDataForFrontend(): array
     {
-        return [
+        $data = [
             'email' => $this->email,
             'name' => $this->name,
             'currency' => $this->currency,
             'address' => $this->address,
             'contacts' => $this->contacts,
         ];
+        if ($this->is_admin) {
+            $data['is_admin'] = true;
+        }
+        return $data;
     }
 
     /**
