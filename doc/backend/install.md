@@ -24,6 +24,11 @@ Deploy also is part of install.
 
 It is first part of install and deploy.
 
+### `key:generate`
+
+`./artisan key:generate` set application key (in `.env`) to a random string.
+This key needed for encrypt session data.
+
 ### chmod
 
 If owner of repo files, user who run artisan and user of php-fpm daemon is different users you must verify the following: 

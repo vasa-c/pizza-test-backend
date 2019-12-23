@@ -1,9 +1,9 @@
 # API methods
 
 For example if method is `layout` then request URL is `/api/layout`.
-If not specified `(POST)` then it GET-method. 
+If not specified `(POST)` then this is GET-method.
 
-**NOTE**: all price transfer to the frontend as integer (in cents), for example 3.99 will be 399 on frontend.
+**NOTE**: all prices transfer to the frontend as integer (in cents), for example 3.99 will be 399 on frontend.
 
 ## `layout`
 
