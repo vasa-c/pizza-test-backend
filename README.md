@@ -13,8 +13,8 @@ Frontend code placed in separated repo.
     * [Requirements](doc/requirements.md)
     * [Backend](doc/backend/install.md)
         * [Configuration](doc/backend/config.md)
-    * Frontend
-        * Configuration
+    * [Frontend](doc/frontend/install.md)
+        * [Configuration](doc/frontend/config.md)
 * [API methods](doc/api/README.md)
 * Backend
     * Database tables
