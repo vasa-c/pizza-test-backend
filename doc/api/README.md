@@ -66,10 +66,12 @@ Order. Request:
 Response:
 
 * `order_number` - for success, redirect to `/cabinet/{order_number}`
-* `user` - user data if was created (such as in `layout` request)
+* `user` - current user data (such as in `layout` request), created or updated
 * `req_login` - TRUE if email already exists 
 
 ## `cabinet`
+
+Response:
 
 * `orders` - list of the current user orders
     * `number`
@@ -80,6 +82,8 @@ Response:
     * `finalized_at`
 
 ## `cabinet/{order-number}`
+
+Response:
 
 * `order` info of the specified order
     * `number`
@@ -102,9 +106,13 @@ Response:
 
 ## `admin`
 
+Response:
+
 * `orders` - such as in `cabinet` method
 
 ## `admin/{order-number}`
+
+Response:
 
 * `order` - such as in `cabinet/{order-number}` method
 

@@ -33,7 +33,9 @@ class CheckoutTest extends TestCase
         if ($guest) {
             $user = null;
         } else {
-            $user = factory(User::class)->create();
+            $user = factory(User::class)->create([
+                'name' => 'X',
+            ]);
             $this->be($user);
         }
         $vars = [
@@ -62,7 +64,7 @@ class CheckoutTest extends TestCase
             $this->assertSame($user->id, $order->user_id);
             $this->assertTrue($user->is(Auth::user()));
         } else {
-            $this->assertTrue(empty($data['user']));
+            $this->assertSame('Tester', $data['user']['name']);
             $this->assertTrue($user->is(Auth::user()));
         }
         Notification::assertSentTo(

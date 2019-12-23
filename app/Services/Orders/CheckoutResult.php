@@ -60,7 +60,7 @@ class CheckoutResult
         $this->responseData = [];
         if ($this->order !== null) {
             $this->responseData['order_number'] = $this->order->number;
-            if ($this->isUserCreated()) {
+            if ($this->user) {
                 $this->responseData['user'] = $this->user->getDataForFrontend();
             }
             $this->responseCode = 200;

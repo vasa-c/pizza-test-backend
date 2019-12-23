@@ -63,7 +63,10 @@ class CheckoutProcessTest extends TestCase
         $this->assertTrue($user->is($result->user));
         $order = $result->order;
         $this->assertInstanceOf(Order::class, $order);
-        $this->assertSame(['order_number' => $order->number], $result->responseData);
+        $this->assertEquals([
+            'order_number' => $order->number,
+            'user' => $user->getDataForFrontend(),
+        ], $result->responseData);
         $this->assertGreaterThan(1000, $order->number);
         $this->assertSame($user->id, $order->user_id);
         $this->assertFalse($result->isUserCreated());

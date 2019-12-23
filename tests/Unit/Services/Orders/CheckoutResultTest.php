@@ -42,7 +42,10 @@ class CheckoutResultTest extends TestCase
         $result->order = $order;
         $result->user = $user;
         $result->buildResponse();
-        $this->assertEquals(['order_number' => $order->number], $result->responseData);
+        $this->assertEquals([
+            'order_number' => $order->number,
+            'user' => $user->getDataForFrontend(),
+        ], $result->responseData);
         $this->assertSame(200, $result->responseCode);
         // user was created
         $result->createdPassword = 'xxx';
