@@ -37,5 +37,6 @@
         <server name="MAIL_DRIVER" value="log"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
+        <server name="APP_KEY" value="base64:M8waOsYpl10arY16E3qS5Tn09Lea/EIzmOgNM7D2pEc="/>
     </php>
 </phpunit>
